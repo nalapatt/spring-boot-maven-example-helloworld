@@ -1,12 +1,12 @@
 def remote = [:]
-remote.name = "jenkins"
-remote.host = "192.168.50.50"
+remote.name = "deploy"
+remote.host = "172.31.23.115"
 remote.allowAnyHosts = true
 
 node {
            
         stage ("Git Check Out") {
-            git changelog: false, credentialsId: '657284f1-e9bf-4d3d-96d8-7bb4c4c646de', poll: false, url: 'https://github.com/rchidana/spring-boot-maven-example-helloworld.git'
+            git changelog: false, credentialsId: 'github', poll: false, url: 'https://github.com/nalapatt/spring-boot-maven-example-helloworld.git'
         }
         
         stage ("Build") {
@@ -14,8 +14,8 @@ node {
         }
         
 		stage("Deploy SpringBoot App!") {
-			  withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-id-2', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'jenkins')]) {
-				  remote.user = jenkins
+			  withCredentials([sshUserPrivateKey(credentialsId: 'dev-slave', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'jenkins')]) {
+				  remote.user = deploy
 				  remote.identityFile = identity
 			
 				  sshCommand remote: remote, command: 'mkdir deployment', failOnError:'false'
