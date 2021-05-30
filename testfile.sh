@@ -8,10 +8,11 @@ node {
 				  remote.user = deploy
 				  remote.identityFile = identity
          stage ("test pipeline") {
-            writeFile file: 'test.sh' pwd: 'test'
+            writeFile file: 'test.sh', pwd: 'test'
             sshScript remote: remote, script: "test.sh"
-            sshPut remote: remote, from: test.sh', into: '/home/jenkins/'
+            sshPut remote: remote, from: 'test.sh', into: '/home/jenkins/'
             sshCommand remote: remote, command: "chmod 777 test.sh;./tesh.sh"
            }
         }
-        
+
+}        
