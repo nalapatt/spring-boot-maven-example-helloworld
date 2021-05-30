@@ -1,0 +1,4 @@
+- name: install the latest version of Apache Maven
+yum:
+name: maven
+state: latest
